@@ -1,4 +1,8 @@
 class OrdersController < ApplicationController
+  # Обнуление сессии, подходит для api
+  protect_from_forgery with: :null_session
+
+
   before_action :set_order, only: [:show, :edit, :update, :destroy]
 
   def approve
@@ -7,6 +11,11 @@ class OrdersController < ApplicationController
   def clacs
     render json: rand(100)
   end
+  def index
+    @orders = Order.all
+    puts "params: #{params.inspect}"
+  end
+
 
   # GET /orders
   # GET /orders.json
@@ -35,6 +44,8 @@ class OrdersController < ApplicationController
   # POST /orders
   # POST /orders.json
   def create
+    #byebug
+  
     @order = Order.new(order_params)
 
     respond_to do |format|
