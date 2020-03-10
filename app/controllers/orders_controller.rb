@@ -1,10 +1,12 @@
 class OrdersController < ApplicationController
   # Обнуление сессии, подходит для api
   protect_from_forgery with: :null_session
-
-
   before_action :set_order, only: [:show, :edit, :update, :destroy]
-
+  def index
+    @orders = Order.all
+    @users = User.all
+    @users.first
+  end
   def approve
     render json: params
   end
@@ -13,15 +15,19 @@ class OrdersController < ApplicationController
   end
   def index
     @orders = Order.all
-    puts "params: #{params.inspect}"
+    @show = Order.select(:name, :created_at, :networks_count, :tags)
+    # puts "params: #{params.inspect}"
+    
+    render json: {orders: @show}
+
   end
 
 
   # GET /orders
   # GET /orders.json
-  def index
-    @orders = Order.all
-  end
+  #def index
+  #  @orders = Order.all
+  #end
   def first
     @order = Order.first
     render :show
