@@ -10,7 +10,8 @@ class LoginService
   
       session[:login] = login
       session[:credits] ||= 1000
-  
+      #orders_controller = OrdersController.new()
+      #session[:test] = orders_controller.check
       "#{login}, вы вошли в #{Time.now}"
     end
   end

@@ -6,8 +6,9 @@ Rails.application.routes.draw do
     get 'welcome/index'
   end
   resources :users
-  resources :orders
+  # resources :orders
   resources :orders do
+    get :check, on: :collection
     member do
       get 'approve'
       get 'clacs'

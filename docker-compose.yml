@@ -1,0 +1,18 @@
+version: '3'
+services:
+    app:
+        #dockerfile: dockerfile
+        build: .
+        ports:
+         - "3000:3000"
+         
+        volumes:
+         - .:/usr/src
+    vm_app:
+         build: ~/liga/HomeWork_HTTP/
+         ports:
+          - "8080:5678"
+#        depends_on:
+#         - redis
+#      redis:
+#        image: redis

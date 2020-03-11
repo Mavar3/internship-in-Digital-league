@@ -5,6 +5,9 @@ class OrdersController < ApplicationController
 
   before_action :set_order, only: [:show, :edit, :update, :destroy]
 
+  rescue_from RuntimeError do
+    redirect_to session[:login], notice: '401 Unauthorized'
+  end    
   def approve
     render json: params
   end
@@ -15,13 +18,20 @@ class OrdersController < ApplicationController
     @orders = Order.all
     puts "params: #{params.inspect}"
   end
-
+  def check
+    unless session[:login] == nil
+      client = HTTPClient.new
+      response = client.request(:get, 'http://possible_orders.srv.w55.ru/')
+      result = JSON.parse(response.body)
+      render json: result
+    end
+  end
 
   # GET /orders
   # GET /orders.json
-  def index
-    @orders = Order.all
-  end
+  #def index
+  #  @orders = Order.all
+  #end
   def first
     @order = Order.first
     render :show
