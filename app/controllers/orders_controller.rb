@@ -5,9 +5,9 @@ class OrdersController < ApplicationController
 
   before_action :set_order, only: [:show, :edit, :update, :destroy]
 
-  # rescue_from RuntimeError do
-    # redirect_to :login, notice: '401 Unauthorized'
-  # end    
+  rescue_from RuntimeError do
+    redirect_to :login, notice: '401 Unauthorized'
+  end    
   def approve
     render json: params
   end
@@ -20,15 +20,10 @@ class OrdersController < ApplicationController
   end
   def check
     unless session[:login] == nil
-      # client = HTTPClient.new
-      # response = client.request(:get, 'http://possible_orders.srv.w55.ru/')
-      # result = JSON.parse(response.body)
-      # render json: result
       order_service = OrderService.new(session)
+      puts order_service.message['specs'][0].each { |key, value| puts "Key: #{key} Value: #{value} "}
       render json: order_service.message
     end
-    # order_service = OrderService.new(session)
-    # redirect_to :login, notice: order_service.message
   end
 
   # GET /orders

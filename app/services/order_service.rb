@@ -4,9 +4,9 @@ class OrderService
     def initialize(session)
       @session = session
     end
-  
+
     def message
-      raise if session[:login] == nil
+      # raise if session[:login] == nil
   
       client = HTTPClient.new
       response = client.request(:get, 'http://possible_orders.srv.w55.ru/')
