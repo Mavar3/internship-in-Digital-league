@@ -18,11 +18,19 @@ class OrdersController < ApplicationController
     @orders = Order.all
     puts "params: #{params.inspect}"
   end
-  def check
+  def check()
     unless session[:login] == nil
+      # Запрос.Квери параметры
+      # Преобразует query в хэш
+      vars = request.query_parameters
+      puts vars
       order_service = OrderService.new(session)
       puts order_service.message['specs'][0].each { |key, value| puts "Key: #{key} Value: #{value} "}
+      # vm_params_controller = VmParamsController.new(session.gets)
       render json: order_service.message
+    else
+      raise
+      # STDERR.puts "I am an error message"
     end
   end
 
