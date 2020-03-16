@@ -1,3 +1,16 @@
+class LoginEror < RuntimeError
+end
+class ServerConection < RuntimeError
+end
+
+
+
+
+
+
+
+
+
 class OrdersController < ApplicationController
   # Обнуление сессии, подходит для api
   protect_from_forgery with: :null_session
@@ -5,9 +18,19 @@ class OrdersController < ApplicationController
 
   before_action :set_order, only: [:show, :edit, :update, :destroy]
 
-  rescue_from RuntimeError do
-    redirect_to :login, notice: '401 Unauthorized'
-  end    
+  # rescue_from RuntimeError do
+    # redirect_to :login, notice: '401 Unauthorized'
+  # end 
+  rescue_from LoginEror do
+    answer = { result: false, error: '401 Unauthorized' }
+    puts answer[:error].class 
+    # render json: { result: false }, status :401
+    # redirect_to :login, notice: '401 Unauthorized'
+  end 
+  rescue_from ServerConection do
+
+    # redirect_to :orders, notice: '503 Service Unavailable'
+  end
   def approve
     render json: params
   end
@@ -18,20 +41,59 @@ class OrdersController < ApplicationController
     @orders = Order.all
     puts "params: #{params.inspect}"
   end
-  def check()
-    unless session[:login] == nil
-      # Запрос.Квери параметры
-      # Преобразует query в хэш
-      vars = request.query_parameters
-      puts vars
-      order_service = OrderService.new(session)
-      puts order_service.message['specs'][0].each { |key, value| puts "Key: #{key} Value: #{value} "}
-      # vm_params_controller = VmParamsController.new(session.gets)
-      render json: order_service.message
-    else
-      raise
-      # STDERR.puts "I am an error message"
+
+
+
+
+
+
+
+  def proverka(order)
+    all_what_i_need = Hash.new
+    order.each do |pos_order|
+      all_what_i_need.clear
+      pos_order['os'][0] == params['os'] ?  nil : next
+      pos_order['cpu'].each {|el| el == params['cpu'].to_i ? all_what_i_need['cpu'] = el : next}
+      pos_order['ram'].each {|el| el == params['ram'].to_i ? all_what_i_need['ram'] = el : next}
+      pos_order['hdd_type'].each {|el| el == params['hdd_type'] ? all_what_i_need['hdd_type'] = el : next}
+      pos_order['hdd_type'].each {|el|}
+      # pos_order['cpu'].each { |value| value == params['cpu'] ? nil }
+      
     end
+  end
+
+
+
+
+
+
+  def check
+    puts "I'am alive"
+    possible_orders_service = PossibleOrdersService.new(session)
+    if possible_orders_service.possible_orders == nil
+      return render json: {result: false}, status: 503
+    end
+    proverka(possible_orders_service.possible_orders['specs'])
+    puts possible_orders_service.possible_orders['specs'][0].each { |key, value| puts "Key: #{key} Value: #{value} "}
+    puts params
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    render json: {result: true}
+
+
+
+
+
+
   end
 
   # GET /orders
