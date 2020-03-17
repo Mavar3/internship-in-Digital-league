@@ -1,6 +1,17 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
+gem 'active_model_serializers'
+gem 'grape'
+gem 'grape-entity'
+gem 'grape-swagger'
+gem 'grape-swagger-entity'
+gem 'grape-swagger-rails'
+
+
+#post gress
+gem 'pg'
+
 ruby '2.6.5'
 #classroom
 gem 'httpclient'
@@ -8,7 +19,7 @@ gem 'httpclient'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.2', '>= 6.0.2.1'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3', '~> 1.4'
+# gem 'sqlite3', '~> 1.4'
 # Use Puma as the app server
 gem 'puma', '~> 4.1'
 # Use SCSS for stylesheets

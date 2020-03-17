@@ -14,13 +14,15 @@ class OrdersController < ApplicationController
     render json: rand(100)
   end
   def index
-    @orders = Order.all
-    @show = Order.select(:name, :created_at, :networks_count, :tags)
-    # puts "params: #{params.inspect}"
-    
-    render json: {orders: @show}
-
+    render json: Order.all, each_serializer: OrderSerializer
   end
+  #def index
+  #  @orders = Order.all
+  #  #@show = Order.select(:name, :created_at, :networks_count, :tags)
+  #   puts "params: #{params.inspect}"
+  #  #render json: {orders: @show}
+  #end
+  
 
 
   # GET /orders

@@ -1,11 +1,15 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
+  def index
+    render json: User.all, each_serializer: UserSerializer
+  end
+
   # GET /users
   # GET /users.json
-  def index
-    @users = User.all
-  end
+  #  def index
+  #   @users = User.all
+  # end
 
   # GET /users/1
   # GET /users/1.json

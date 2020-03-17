@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   resource :login, only: [:show, :create, :destroy]
+
+  mount GrapeApi => '/api'
+  mount GrapeSwaggerRails::Engine => '/swagger'
+
   get 'welcome/main'
   namespace :admin do
     root 'welcome#index'
