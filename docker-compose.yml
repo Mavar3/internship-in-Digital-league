@@ -8,10 +8,25 @@ services:
          
         volumes:
          - .:/usr/src
-    vm_app:
-         build: ~/liga/HomeWork_HTTP/
-         ports:
-          - "8080:5678"
+        depends_on: 
+            - counting_serv
+
+    counting_serv:
+        image: new_test_tag
+        ports: 
+            - "8080:5678"
+        restart: always
+        # comand: rails s -p 8080
+
+        # command: ["rails", "s", "-p", "8080"]
+
+    #price:
+    #    image: 
+    #vm_app:
+    #     build: ~/liga/HomeWork_HTTP/
+    #     ports:
+    #      - "8080:5678"
+    #      
 #        depends_on:
 #         - redis
 #      redis:

@@ -2,6 +2,8 @@ class LoginEror < RuntimeError
 end
 class ServerConection < RuntimeError
 end
+class IncorrectParams < RuntimeError
+end
 
 
 
@@ -31,6 +33,9 @@ class OrdersController < ApplicationController
 
     # redirect_to :orders, notice: '503 Service Unavailable'
   end
+  rescue_from IncorrectParams do
+    redirect_to :login, notice: '406 Not Acceptable'
+  end
   def approve
     render json: params
   end
@@ -48,19 +53,51 @@ class OrdersController < ApplicationController
 
 
 
-  def proverka(order)
-    all_what_i_need = Hash.new
-    order.each do |pos_order|
-      all_what_i_need.clear
-      pos_order['os'][0] == params['os'] ?  nil : next
-      pos_order['cpu'].each {|el| el == params['cpu'].to_i ? all_what_i_need['cpu'] = el : next}
-      pos_order['ram'].each {|el| el == params['ram'].to_i ? all_what_i_need['ram'] = el : next}
-      pos_order['hdd_type'].each {|el| el == params['hdd_type'] ? all_what_i_need['hdd_type'] = el : next}
-      pos_order['hdd_type'].each {|el|}
-      # pos_order['cpu'].each { |value| value == params['cpu'] ? nil }
-      
-    end
-  end
+  # def proverka(orders)
+  #   all = Hash.new()
+  #   orders.each do |order|
+  #     #Проверка на наличие ошибки.
+  #     #Проверяем ОС на совпадение с одним из параметров
+  #     os = params['os'].downcase
+  #     unless order['os'][0] == os
+  #       all.clear
+  #       next
+  #     end
+  #     #Проверяем память на совпадение
+  #     ram = params['ram'].to_i
+  #     if order['ram'].each { |el| el == ram }
+  #       all['ram'] = ram
+  #     else
+  #       all.clear
+  #       next
+  #     end
+  #     #Проверяем процессор
+  #     cpu = params['cpu'].to_i
+  #     if order['cpu'].each { |el| el == cpu }
+  #       all['cpu'] = cpu
+  #     else
+  #       all.clear
+  #       next
+  #     end
+  #     #Проверяем типы
+  #     if order['hdd_type'].each { |el| el == params['hdd_type']}
+  #       all['hdd_type'] = params['hdd_type']
+  #     else
+  #       all.clear
+  #       next
+  #     end
+  #     #Т.к. тип проверили, то нет необходимости проверять его снова
+  #     hdd_capacity = params['hdd_capacity'].to_i
+  #     # raise IncorrectParams unless order['hdd_capacity'][ params['hdd_type'] ]['from'] <= hdd_capacity && order['hdd_capacity'][ params['hdd_type'] ]['to'] >= hdd_capacity
+  #     if order['hdd_capacity'][ params['hdd_type'] ]['from'] <= hdd_capacity && order['hdd_capacity'][ params['hdd_type'] ]['to'] >= hdd_capacity
+  #       all['hdd_capacity'] = hdd_capacity
+  #       return all
+  #     else
+  #       all.clear
+  #       next
+  #     end
+  #   end
+  # end
 
 
 
@@ -71,11 +108,17 @@ class OrdersController < ApplicationController
     puts "I'am alive"
     possible_orders_service = PossibleOrdersService.new(session)
     if possible_orders_service.possible_orders == nil
-      return render json: {result: false}, status: 503
+      raise ServerConection 
+      # return render json: {result: false}, status: 503
     end
-    proverka(possible_orders_service.possible_orders['specs'])
-    puts possible_orders_service.possible_orders['specs'][0].each { |key, value| puts "Key: #{key} Value: #{value} "}
-    puts params
+    vm_get = VmGetService.new(params)
+    vm_par = vm_get.proverka(possible_orders_service.possible_orders['specs'])
+    puts vm_par
+    client = HTTPClient.new
+    response = client.request(:get, 'http://counting_serv:5678/',vm_par)
+    puts response.body
+    # puts possible_orders_service.possible_orders['specs'][0].each { |key, value| puts "Key: #{key} Value: #{value} "}
+    # puts params
     
     
     
