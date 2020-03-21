@@ -7,14 +7,14 @@ class BalanceCheckService
 
   def start
     puts session[:credits]
-    raise session[:credits] == nil
+    if session[:credits] == nil
+      raise LoginError
+    end
     if session[:credits] >= vm_cost
       answer = {result: true, total: vm_cost, balance: session[:credits], 
         balance_after_transaction: session[:credits] - vm_cost}
     else
       raise IncorrectParams
     end
-  rescue
-    nil
   end
 end

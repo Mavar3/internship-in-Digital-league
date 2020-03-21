@@ -47,7 +47,7 @@ class VmGetService
                 next
             end
         rescue
-            return nil
+            raise IncorrectParams
         end
     end
 end

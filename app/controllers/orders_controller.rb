@@ -1,17 +1,3 @@
-class LoginEror < RuntimeError
-end
-class ServerConection < RuntimeError
-end
-class IncorrectParams < RuntimeError
-end
-
-
-
-
-
-
-
-
 
 class OrdersController < ApplicationController
   # Обнуление сессии, подходит для api
@@ -23,7 +9,7 @@ class OrdersController < ApplicationController
   # rescue_from RuntimeError do
     # redirect_to :login, notice: '401 Unauthorized'
   # end 
-  rescue_from LoginEror do
+  rescue_from LoginError do
     render json: { result: false, error: '401 Unauthorized' }, status: 401
   end 
   rescue_from ServerConection do
@@ -46,36 +32,36 @@ class OrdersController < ApplicationController
   def check
     #Проверяем возможные заказы
     possible_orders_service = PossibleOrdersService.new(session)
-    if possible_orders_service.possible_orders == nil
-      raise ServerConection 
-      # return render json: {result: false, error: '503 Service Unavailable'}, status: 503
-    end
+#    if possible_orders_service.possible_orders == nil
+#      raise ServerConection 
+#      # return render json: {result: false, error: '503 Service Unavailable'}, status: 503
+#    end
     
     #Берём параметры, из квери и проверяем их
     vm_get = VmGetService.new(params)
-    if vm_get.proverka(possible_orders_service.possible_orders['specs']) == nil
-      # return render json: {result: false, error: '406 Not Acceptable'}, status: 406
-      raise IncorrectParams
-    else
+#    if vm_get.proverka(possible_orders_service.possible_orders['specs']) == nil
+#      # return render json: {result: false, error: '406 Not Acceptable'}, status: 406
+#      raise IncorrectParams
+#    else
       vm_par = vm_get.proverka(possible_orders_service.possible_orders['specs'])
-    end
+#    end
 
     #Запрашиваем цену, у ресурса стороннего. Нужно проверить соединение с ним.
     price_serv = PriceService.new(vm_par)
-    if price_serv.get_price == nil
-      raise ServerConection 
-      # return render json: {result: false, error: '503 Service Unavailable'}, status: 503
-    else
+#    if price_serv.get_price == nil
+#      raise ServerConection 
+#      # return render json: {result: false, error: '503 Service Unavailable'}, status: 503
+#    else
       price_vm = price_serv.get_price
-    end
+#    end
 
 
     # Проверяем баланс клиента, если его не существует, то вывести
     balan_check = BalanceCheckService.new(session, price_vm)
-    if balan_check.start == nil
-      raise ServerConection
-      # return render json: {result: false, error: '503 Service Unavailable'}, status: 503
-    end
+#    if balan_check.start == nil
+#      raise ServerConection
+#      # return render json: {result: false, error: '503 Service Unavailable'}, status: 503
+#    end
     render json: balan_check.start 
   end
 

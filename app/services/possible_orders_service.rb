@@ -5,11 +5,13 @@ class PossibleOrdersService
     end
 
     def possible_orders
-        raise if session[:login] == nil
+        if session[:login] == nil
+            raise LoginError
+        end
         client = HTTPClient.new
         response = client.request(:get, 'http://possible_orders.srv.w55.ru/')
         result = JSON.parse(response.body)
     rescue
-        nil
+        raise ServerConection
     end
 end

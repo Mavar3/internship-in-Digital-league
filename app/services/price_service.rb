@@ -8,6 +8,6 @@ class PriceService
         response = client.request(:get, sorce, vm_par)
         cost = response.body.to_i
     rescue
-        nil
+        raise ServerConection
     end
 end
