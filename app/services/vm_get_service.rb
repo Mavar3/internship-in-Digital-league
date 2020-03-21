@@ -6,13 +6,13 @@ class VmGetService
     def proverka(orders)
         all = Hash.new
         orders.each do |order|
-          #Проверка на наличие ошибки.
-          #Проверяем ОС на совпадение с одним из параметров
-          os = params['os'].downcase
-          unless order['os'][0] == os
+            #Проверка на наличие ошибки.
+            #Проверяем ОС на совпадение с одним из параметров
+            os = params['os'].downcase
+            unless order['os'][0] == os
                 all.clear
                 next
-          end
+            end
             #Проверяем память на совпадение
             ram = params['ram'].to_i
             if order['ram'].each { |el| el == ram }
@@ -46,8 +46,9 @@ class VmGetService
                 all.clear
                 next
             end
-        rescue
-            raise IncorrectParams
         end
+        raise IncorrectParams    
+    rescue
+        raise IncorrectParams
     end
 end

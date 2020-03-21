@@ -4,7 +4,7 @@ class PossibleOrdersService
       @session = session
     end
 
-    def possible_orders(link = 'http://possible_orders.srv.w55.ruu/')
+    def possible_orders(link = 'http://possible_orders.srv.w55.ru/')
         puts "session login: #{session[:login]}"
         if session[:login] == nil
             raise LoginError
