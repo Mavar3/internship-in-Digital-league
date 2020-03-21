@@ -10,6 +10,6 @@ class PossibleOrdersService
         response = client.request(:get, 'http://possible_orders.srv.w55.ru/')
         result = JSON.parse(response.body)
     rescue
-        return nil
+        nil
     end
 end

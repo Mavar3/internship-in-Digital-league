@@ -46,6 +46,8 @@ class VmGetService
                 all.clear
                 next
             end
+        rescue
+            return nil
         end
     end
 end

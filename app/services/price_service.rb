@@ -1,11 +1,13 @@
 class PriceService
-    attr_reader :session
-    def initialize(session)
-        @session = session
+    attr_reader :vm_par
+    def initialize(vm_par)
+        @vm_par = vm_par
     end
-    def get_price(sorce = 'http://lockalhost:8080')
+    def get_price(sorce = 'http://counting_serv:5678/')
         client = HTTPClient.new
-        #В post запросе необходимо передать, а в гет принять
+        response = client.request(:get, sorce, vm_par)
+        cost = response.body.to_i
+    rescue
+        nil
     end
 end
-  
