@@ -1,4 +1,9 @@
-
+class LoginError < RuntimeError
+end
+class ServerConection < RuntimeError
+end
+class IncorrectParams < RuntimeError
+end
 class OrdersController < ApplicationController
   # Обнуление сессии, подходит для api
   protect_from_forgery with: :null_session
@@ -30,38 +35,21 @@ class OrdersController < ApplicationController
   end
 
   def check
-    #Проверяем возможные заказы
+    # Проверяем возможные заказы
     possible_orders_service = PossibleOrdersService.new(session)
-#    if possible_orders_service.possible_orders == nil
-#      raise ServerConection 
-#      # return render json: {result: false, error: '503 Service Unavailable'}, status: 503
-#    end
     
-    #Берём параметры, из квери и проверяем их
+    # Берём параметры, из квери и проверяем их
     vm_get = VmGetService.new(params)
-#    if vm_get.proverka(possible_orders_service.possible_orders['specs']) == nil
-#      # return render json: {result: false, error: '406 Not Acceptable'}, status: 406
-#      raise IncorrectParams
-#    else
-      vm_par = vm_get.proverka(possible_orders_service.possible_orders['specs'])
-#    end
+    vm_par = vm_get.proverka(possible_orders_service.possible_orders['specs'])
 
-    #Запрашиваем цену, у ресурса стороннего. Нужно проверить соединение с ним.
+    # Запрашиваем цену, у ресурса стороннего. Нужно проверить соединение с ним.
     price_serv = PriceService.new(vm_par)
-#    if price_serv.get_price == nil
-#      raise ServerConection 
-#      # return render json: {result: false, error: '503 Service Unavailable'}, status: 503
-#    else
-      price_vm = price_serv.get_price
-#    end
+    price_vm = price_serv.get_price
 
-
-    # Проверяем баланс клиента, если его не существует, то вывести
+    # Проверяем баланс клиента
     balan_check = BalanceCheckService.new(session, price_vm)
-#    if balan_check.start == nil
-#      raise ServerConection
-#      # return render json: {result: false, error: '503 Service Unavailable'}, status: 503
-#    end
+    
+    # Возвращаем полученный результат 
     render json: balan_check.start 
   end
 

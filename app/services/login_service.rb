@@ -9,7 +9,7 @@ class LoginService
       raise if password != '123'
   
       session[:login] = login
-      session[:credits] ||= 1000
+      session[:credits] ||= 1000000
       #orders_controller = OrdersController.new()
       #session[:test] = orders_controller.check
       "#{login}, вы вошли в #{Time.now}"

@@ -1,6 +1,6 @@
-class LoginError < RuntimeError
-end
-class ServerConection < RuntimeError
-end
-class IncorrectParams < RuntimeError
-end
+# class LoginError < RuntimeError
+# end
+# class ServerConection < RuntimeError
+# end
+# class IncorrectParams < RuntimeError
+# end
