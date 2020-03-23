@@ -6,10 +6,8 @@ class PossibleOrdersService
 
     def possible_orders(link = 'http://possible_orders.srv.w55.ru/')
         puts "session login: #{session[:login]}"
-        if session[:login] == nil
-            raise LoginError
-        end
-
+        raise LoginError if session[:login] == nil
+        
         client = HTTPClient.new
         response = client.request(:get, link)
         result = JSON.parse(response.body)

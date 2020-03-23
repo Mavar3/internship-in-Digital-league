@@ -9,13 +9,13 @@ class VmGetService
             #Проверка на наличие ошибки.
             #Проверяем ОС на совпадение с одним из параметров
             os = params['os'].downcase
-            unless order['os'][0] == os
+            unless order['os'].include?(os)
                 all.clear
                 next
             end
             #Проверяем память на совпадение
             ram = params['ram'].to_i
-            if order['ram'].each { |el| el == ram }
+            if order['ram'].include?(ram)
                 all['ram'] = ram
             else
                 all.clear
@@ -23,15 +23,16 @@ class VmGetService
             end
             #Проверяем процессор
             cpu = params['cpu'].to_i
-            if order['cpu'].each { |el| el == cpu }
+            if order['cpu'].include?(cpu)
                 all['cpu'] = cpu
             else
                 all.clear
                 next
             end
             #Проверяем типы
-            if order['hdd_type'].each { |el| el == params['hdd_type']}
-                all['hdd_type'] = params['hdd_type']
+            hdd_type = params['hdd_type']
+            if order['hdd_type'].include?(hdd_type)
+                all['hdd_type'] = hdd_type
             else
                 all.clear
                 next
