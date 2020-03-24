@@ -1,6 +1,15 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
+
+gem 'bunny'
+gem 'sidekiq'
+gem 'redis'
+gem 'eventmachine'
+
+
+
+
 gem 'active_model_serializers'
 gem 'grape'
 gem 'grape-entity'

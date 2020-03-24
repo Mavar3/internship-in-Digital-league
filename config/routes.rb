@@ -1,4 +1,8 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
+  mount Sidekiq::Web => '/sidekiq'
+
   resource :login, only: [:show, :create, :destroy]
 
   mount GrapeApi => '/api'
@@ -18,6 +22,8 @@ Rails.application.routes.draw do
       get 'first'
     end
   end
+
+  
   
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
