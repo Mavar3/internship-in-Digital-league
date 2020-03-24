@@ -1,4 +1,8 @@
 class BalanceCheckService
+  class LoginError < RuntimeError
+  end 
+  class IncorrectParams < RuntimeError
+  end
   attr_reader :session, :vm_cost
   
   def initialize(session, vm_cost)

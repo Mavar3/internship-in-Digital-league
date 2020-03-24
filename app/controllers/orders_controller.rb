@@ -1,11 +1,11 @@
-class LoginError < RuntimeError
-end
-class ServerConection < RuntimeError
-end
-class IncorrectParams < RuntimeError
-end
 class OrdersController < ApplicationController
-  # Обнуление сессии, подходит для api
+  class LoginError < RuntimeError
+  end
+  class ServerConectionError < RuntimeError
+  end
+  class IncorrectParams < RuntimeError
+  end
+   # Обнуление сессии, подходит для api
   protect_from_forgery with: :null_session
 
 
@@ -17,7 +17,7 @@ class OrdersController < ApplicationController
   rescue_from LoginError do
     render json: { result: false, error: '401 Unauthorized' }, status: 401
   end 
-  rescue_from ServerConection do
+  rescue_from ServerConectionError do
     render json: { result: false, error: '503 Service Unavailable' }, status: 503
   end
   rescue_from IncorrectParams do

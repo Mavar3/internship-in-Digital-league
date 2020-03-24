@@ -1,4 +1,8 @@
 class PossibleOrdersService
+    class LoginError < RuntimeError
+    end
+    class ServerConectionError < RuntimeError
+    end
     attr_reader :session
     def initialize(session)
       @session = session
@@ -14,6 +18,6 @@ class PossibleOrdersService
     rescue LoginError
         raise LoginError
     rescue
-        raise ServerConection
+        raise ServerConectionError
     end
 end

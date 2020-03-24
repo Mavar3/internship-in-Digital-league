@@ -1,4 +1,6 @@
 class PriceService
+    class ServerConectionError < RuntimeError
+    end
     attr_reader :vm_par
     def initialize(vm_par)
         @vm_par = vm_par
@@ -8,6 +10,6 @@ class PriceService
         response = client.request(:get, sorce, vm_par)
         cost = response.body.to_i
     rescue
-        raise ServerConection
+        raise ServerConectionError
     end
 end
