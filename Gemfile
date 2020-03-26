@@ -8,6 +8,15 @@ gem 'redis'
 gem 'eventmachine'
 
 
+group :development, :test do
+  gem 'rspec-rails', '~> 3.9'
+  gem 'factory_bot_rails'
+  gem 'webmock'
+  gem 'rubocop', require: false
+  gem 'bundler-audit'
+  gem 'simplecov', require: false
+end
+
 
 
 gem 'active_model_serializers'
