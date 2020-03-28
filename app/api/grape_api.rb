@@ -3,6 +3,6 @@
 class GrapeApi < Grape::API
   mount UsersApi
   mount OrdersApi
-  mount ReportsApi
+  # mount ReportsApi
   add_swagger_documentation
   end
