@@ -2,18 +2,20 @@ class GrapeApi
   class UsersApi < Grape::API # rubocop:disable Metrics/ClassLength
     format :json
 
-    namespace :users do      
+    namespace :users do
       desc 'Список пользователей',
         success: GrapeApi::Entities::User,
         is_array: true 
       params do
-        optional :ballance, type: Integer, desc: 'Баланс пользователя'
+        optional :ballance, type: Integer
       end
       get do
-        users = params[:ballance].present? ? User.where('ballance >= :ballance', ballance: params[:ballance]) : User.all
-        present users, with: GrapeApi::Entities::User
+        users = params[:ballance].present? ? User.where('balance >= :ballance', ballance: params[:ballance]) : User.all
+        present users
       end
-  
+
+
+
       route_param :id, type: Integer do
         desc 'Просмотр пользователя',
           success: GrapeApi::Entities::User,
