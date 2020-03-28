@@ -1,44 +1,46 @@
+# frozen_string_literal: true
+
 class OrdersController < ApplicationController
   # Обнуление сессии, подходит для api
   protect_from_forgery with: :null_session
-  before_action :set_order, only: [:show, :edit, :update, :destroy]
+  before_action :set_order, only: %i[show edit update destroy]
   def index
     @orders = Order.all
     @users = User.all
     @users.first
   end
+
   def approve
     render json: params
   end
+
   def clacs
     render json: rand(100)
   end
+
   def index
     render json: Order.all, each_serializer: OrderSerializer
   end
-  #def index
+  # def index
   #  @orders = Order.all
   #  #@show = Order.select(:name, :created_at, :networks_count, :tags)
   #   puts "params: #{params.inspect}"
   #  #render json: {orders: @show}
-  #end
-  
-
+  # end
 
   # GET /orders
   # GET /orders.json
-  #def index
+  # def index
   #  @orders = Order.all
-  #end
+  # end
   def first
     @order = Order.first
     render :show
-  end  
+  end
 
   # GET /orders/1
   # GET /orders/1.json
-  def show
-  end
+  def show; end
 
   # GET /orders/new
   def new
@@ -46,14 +48,13 @@ class OrdersController < ApplicationController
   end
 
   # GET /orders/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /orders
   # POST /orders.json
   def create
-    #byebug
-  
+    # byebug
+
     @order = Order.new(order_params)
 
     respond_to do |format|
@@ -92,13 +93,14 @@ class OrdersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_order
-      @order = Order.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def order_params
-      params.require(:order).permit(:name, :status, :cost)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_order
+    @order = Order.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def order_params
+    params.require(:order).permit(:name, :status, :cost)
+  end
 end

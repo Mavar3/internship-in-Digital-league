@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class Admin::WelcomesController < ApplicationController
-  before_action :set_admin_welcome, only: [:show, :edit, :update, :destroy]
+  before_action :set_admin_welcome, only: %i[show edit update destroy]
 
   # GET /admin/welcomes
   # GET /admin/welcomes.json
@@ -9,8 +11,7 @@ class Admin::WelcomesController < ApplicationController
 
   # GET /admin/welcomes/1
   # GET /admin/welcomes/1.json
-  def show
-  end
+  def show; end
 
   # GET /admin/welcomes/new
   def new
@@ -18,8 +19,7 @@ class Admin::WelcomesController < ApplicationController
   end
 
   # GET /admin/welcomes/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /admin/welcomes
   # POST /admin/welcomes.json
@@ -62,13 +62,14 @@ class Admin::WelcomesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_admin_welcome
-      @admin_welcome = Admin::Welcome.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def admin_welcome_params
-      params.fetch(:admin_welcome, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_admin_welcome
+    @admin_welcome = Admin::Welcome.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def admin_welcome_params
+    params.fetch(:admin_welcome, {})
+  end
 end

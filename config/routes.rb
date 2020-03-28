@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
 
-  resource :login, only: [:show, :create, :destroy]
+  resource :login, only: %i[show create destroy]
 
   mount GrapeApi => '/api'
   mount GrapeSwaggerRails::Engine => '/swagger'
@@ -23,7 +25,5 @@ Rails.application.routes.draw do
     end
   end
 
-  
-  
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

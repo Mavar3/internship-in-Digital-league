@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # app/serializsers/user_serializer.rb
 class UserSerializer < ActiveModel::Serializer
   attributes :id, :full_name
@@ -5,5 +7,4 @@ class UserSerializer < ActiveModel::Serializer
   def full_name
     "#{object.last_name} #{object.name}"
   end
-
 end
