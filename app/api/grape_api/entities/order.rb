@@ -1,20 +1,15 @@
 # frozen_string_literal: true
-
 class GrapeApi
   module Entities
     class Order < Grape::Entity
-      expose :id
-      expose :name
-      expose :create_at
-      expose :id, documentation: { type: 'integer', desc: 'Идентификатор заказа', required: true }
-      expose :full_name, documentation: { type: 'string', desc: 'Полное имя заказа', required: true }
-      expose :ballance, if: ->(_object, options) { options[:detail] == true }
+      expose :name, documentation: { type: 'string', desc: 'Название заказа', required: true }
+      expose :created_at, documentation: { type: 'string', desc: 'Время создания заказа', required: true }
+      expose :networks_count, documentation: { type: 'integer', desc: 'Количество сетей у заказа', required: true }
+      expose :tags, using: Entities::Tag, documentation: { type: Entities::Tag, is_array: true, desc: 'Количество тегов у заказа', required: true }
 
-      # expose :ballance, if: lambda { |object, options| options[:detail] == true }
-
-      # def full_name
-      #   "#{object.name} #{object.last_name}"
-      # end
+      def networks_count
+        object.networks.size
+      end
     end
   end
 end
