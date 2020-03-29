@@ -12,9 +12,12 @@ def really_slow_task(payload)
   puts "Payload: #{payload.class}"
   payload = eval(payload) # Превращаем в хэш
   
+  # cost_array = payload.values
+  # puts cost_array.sort
   
 
   puts 'Slow task finished'
+  puts final_result = payload.sort_by {|k, v| v}
 end
 
 
