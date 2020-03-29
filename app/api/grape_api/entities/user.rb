@@ -12,4 +12,4 @@ class GrapeApi
       end
     end
   end
-  end
+end

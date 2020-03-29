@@ -8,24 +8,21 @@ class GrapeApi
       route_param :id, type: Integer do
         desc 'Заказ',
           success: GrapeApi::Entities::Order,
-          is_array: true
+          failure: [{ code: 404, message: 'Заказ не найдена' }]
         get do
           order = Order.find_by_id(params[:id])
           error!({ message: 'Заказ не найден' }, 404) unless order
-          present order with: GrapeApi::Entities::Order, detail: params[:detail]
+          present order with: GrapeApi::Entities::Order
         end
-        # upgrate and another
       end
-      desc 'Проверка по Статусу'
+      desc 'Проверка по Статусу',
+        success: GrapeApi::Entities::Order,
+        is_array: true 
       params do
         optional :status, type: Integer
       end
       get do
-        orders = if params[:status].present?
-                  Order.where('status >= :status', status: params[:status])
-                else
-                  Order.all
-        end
+        orders = params[:status].present? ? Order.where('status >= :status', status: params[:status]) : Order.all
         present orders
       end
     end
