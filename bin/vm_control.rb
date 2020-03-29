@@ -5,14 +5,18 @@ def really_slow_task(payload)
 
   10.times do
     putc '.'
-    sleep 1
+   #  sleep 1
   end
   puts '.'
-
-  puts "Payload: #{payload}"
+  puts "Payload 1: #{payload}"
+  puts "Payload: #{payload.class}"
+  payload = eval(payload) # Превращаем в хэш
+  
+  
 
   puts 'Slow task finished'
-  end
+end
+
 
 require 'eventmachine'
 require 'bunny'

@@ -12,7 +12,7 @@ class GrapeApi
         get do
           order = Order.find_by_id(params[:id])
           error!({ message: 'Заказ не найден' }, 404) unless order
-          present order with: GrapeApi::Entities::Order
+          present order, with: GrapeApi::Entities::Order
         end
       end
       desc 'Проверка по Статусу',

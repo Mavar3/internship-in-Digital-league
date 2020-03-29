@@ -14,19 +14,19 @@ class GrapeApi
         present users
       end
 
-      # route_param :id, type: Integer do
-      #   desc 'Просмотр пользователя',
-      #     success: GrapeApi::Entities::User,
-      #     failure: [{ code: 404, message: 'Пользователь не найдена' }]
-      #   params do
-      #     optional :detail, type: Boolean, desc: 'Подробная информация о пользователях'
-      #   end
-      #   get do
-      #     user = User.find_by_id(params[:id])
-      #     error!({ message: 'Пользователь не найден' }, 404) unless user
-      #     present user, with: GrapeApi::Entities::User, detail: params[:detail]
-      #   end
-      # end
+      route_param :id, type: Integer do
+        desc 'Просмотр пользователя',
+          success: GrapeApi::Entities::User,
+          failure: [{ code: 404, message: 'Пользователь не найдена' }]
+        params do
+          optional :detail, type: Boolean, desc: 'Подробная информация о пользователях'
+        end
+        get do
+          user = User.find_by_id(params[:id])
+          error!({ message: 'Пользователь не найден' }, 404) unless user
+          present user, with: GrapeApi::Entities::User, detail: params[:detail]
+        end
+      end
 
     end
   end
