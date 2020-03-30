@@ -3,4 +3,5 @@
 class User < ApplicationRecord
   has_many :orders
   has_one :passport_data
+  has_many :report
 end
