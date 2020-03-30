@@ -18,7 +18,7 @@ class GrapeApi
 
       route_param :result, type: String do
         get do
-          present Order.all.order(:cost)
+          present Order.all
         end
       end
 
