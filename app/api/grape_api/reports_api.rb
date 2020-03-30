@@ -12,10 +12,11 @@ class GrapeApi
       end        
       get do
         user = User.find_by_id(params[:usr])
-        # error!({ message: 'Пользователь с заказами не найден' }, 404) unless user
+        error!({ message: 'Пользователь с заказами не найден' }, 404) unless user
         # error!({ message: 'Счётчик не может быть < 1' }, 406) unless params[:count] > 0
         orders = Order.find_by(user_id: params[:usr].to_i)
-        ReportWorker.perform_async(orders, params[:usr].to_i, params[:count])
+        ReportWorker.perform_async(orders, params[:usr].to_i, params[:count].to_i)
+        present Report.all
         # present status: "Отправленно в работу. Проверяйте http://localhost:3000/api/reports/result"
       end
 
