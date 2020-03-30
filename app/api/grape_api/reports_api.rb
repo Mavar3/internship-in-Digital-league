@@ -14,15 +14,16 @@ class GrapeApi
         user = User.find_by_id(params[:usr])
         error!({ message: 'Пользователь с заказами не найден' }, 404) unless user
         # error!({ message: 'Счётчик не может быть < 1' }, 406) unless params[:count] > 0
-        orders = Order.find_by(user_id: params[:usr].to_i)
-        ReportWorker.perform_async(orders, params[:usr].to_i, params[:count].to_i)
-        present Report.all
-        # present status: "Отправленно в работу. Проверяйте http://localhost:3000/api/reports/result"
+        # orders = Order.find_by(user_id: params[:usr].to_i)
+
+        ReportWorker.perform_async(params[:usr].to_i, params[:count].to_i)
+        present user.report
+        # present Order.where(user_id: params[:usr]).order(:cost)
       end
 
       route_param :result, type: String do
         get do
-          present Order.all.sort_by(:cost)
+          present Order.all.order(:cost)
           # present Order.all #, with: GrapeApi::Entities::Report
         end
       end
