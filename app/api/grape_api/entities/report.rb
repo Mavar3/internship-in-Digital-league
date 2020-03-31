@@ -1,11 +1,9 @@
 class GrapeApi
   module Entities
     class Report < Grape::Entity
-      # expose :get_link, if: lambda { |object, options|  options[:link] != nil } 
-
-      # def get_link
-      #   "http://localhost:3000/api/reports/#{link}"
-      # end
+      expose :U_can_check_Ur_result_at do |object, options|
+        "http://localhost:3000/api/reports/#{options[:link]}"
+      end
     end
   end
 end

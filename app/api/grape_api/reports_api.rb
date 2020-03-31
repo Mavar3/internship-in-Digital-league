@@ -19,7 +19,7 @@ class GrapeApi
         error!({ message: 'Нет такого типа' }, 404) unless types.include?(params[:type])
         
         ReportWorker.perform_async(params[:usr].to_i, params[:count].to_i, params[:type])
-        present "U can check U'r result at: "#, with: GrapeApi::Entities::Report, link: params[:usr]
+        present "", with: GrapeApi::Entities::Report, link: params[:usr]
       end
 
       route_param :id, type: Integer do
