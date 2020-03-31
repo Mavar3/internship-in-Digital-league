@@ -12,9 +12,9 @@ class ReportWorker
     report = Report.new(user_id: user_id)
     sort_orders = orders.order(:cost)
     sort_orders = sort_orders.where(user_id: user_id)
-    sort_ram_orders = orders.order(:options['ram']) #Он не совсем коректно сортирует, вернее вообще не сортирует
-    sort_ram_orders = sort_ram_orders.where(user_id: user_id)
-    sort_hdd_capcity_orders = order.order(:options['hdd_capacity']) #Надо как-то подобраться к [:options]['hdd_capacity']
+    sort_ram_orders = orders.order("(options ->> 'cpu')") #Я нашёл эту дичь!!!! Спасибо Stackoverflow
+    sort_ram_orders = sort_ram_orders.where(user_id: user_id) #https://stackoverflow.com/questions/42365091/rails-order-by-a-hash-value-attribute
+    sort_hdd_capcity_orders = order.orderorder("(options ->> 'hdd_capacity')")
     sort_hdd_capcity_orders = sort_hdd_capcity_orders.where(user_id: user_id)
     report.max_cost = sort_orders.last(counter)
     report.min_cost = sort_orders.first(counter)
