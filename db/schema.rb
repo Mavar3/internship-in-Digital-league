@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(version: 2020_03_30_181450) do
     t.text "min_cost"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.text "max_count_ram"
+    t.text "max_count_type"
     t.text "max_additional_hdd"
     t.text "max_additional_memory_hdd"
     t.index ["user_id"], name: "index_reports_on_user_id"
