@@ -12,26 +12,39 @@
   Tag.create(name: tag_name)
 end
 
-10.times do |time|
-  User.create(
-    name: "First_#{time}",
-    last_name: "Last_#{time}",
-    balance: rand(10_000)
-  )
-end
+# 10.times do |time|
+#   User.create(
+#     name: "First_#{time}",
+#     last_name: "Last_#{time}",
+#     balance: rand(10_000)
+#   )
+# end
 
 users = User.all
 # tags = Tag.all
+hdd = ['sas', 'sata', 'ssd']
 
-100_000.times do |time|
+100.times do |time|
   Order.create(
     name: "vm-#{time}",
     cost: rand(10_000),
     status: rand(5),
-    user_id: users.sample.id
+    user_id: users.sample.id,
+    options: {cpu: rand(1..17), ram: rand(1..33), hdd: hdd[rand(3)], hdd_capacity: rand(1..501)	}
     # tags: tags.shuffle.take(rand(5))
   )
 end
+
+# 100_000.times do |time|
+#   Order.create(
+#     name: "vm-#{time}",
+#     cost: rand(10_000),
+#     status: rand(5),
+#     user_id: users.sample.id
+#     options: {cpu: rand(16), ram: rand(32), ssd: ssd[rand(3)]}
+#     # tags: tags.shuffle.take(rand(5))
+#   )
+# end
 
 # %w[fastest slowest db app ballancer rabbitmq sidekiq cache_db].each do |tag_name|
 #     Tag.create(name: tag_name)

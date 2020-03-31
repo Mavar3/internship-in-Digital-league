@@ -12,8 +12,12 @@ class ReportWorker
     report = Report.new(user_id: user_id)
     sort_orders = orders.order(:cost)
     sort_orders = sort_orders.where(user_id: user_id)
+    sort_ram_orders = orders.order(:options['ram']) #Он не совсем коректно сортирует, вернее вообще не сортирует
+    sort_hdd_capcity_orders = order.order(:options['hdd_capacity']) #Надо как-то подобраться к [:options]['hdd_capacity']
     report.max_cost = sort_orders.first(counter)
     report.min_cost = sort_orders.last(counter)
+    report.max_count_ram = sort_ram_orders
+    report.max_additional_hdd = sort_hdd_capcity_orders
     report.save
   end
 end
