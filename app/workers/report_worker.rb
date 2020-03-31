@@ -26,7 +26,6 @@ class ReportWorker
 
   def sort_by_type(type)
     hdd_type = ['sas', 'sata', 'ssd']
-    return hdd_capacity if hdd_type.include?(type)
-    type
+    result = hdd_type.include?(type) ? hdd_capacity : type
   end
 end
