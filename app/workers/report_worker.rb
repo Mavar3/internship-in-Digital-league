@@ -1,8 +1,8 @@
 class ReportWorker
   include Sidekiq::Worker
 
-  def perform(user_id, counter)
-    create_report(user_id, counter)
+  def perform(user_id, counter, type)
+    create_report(user_id, counter, type)
   end
 
   private
@@ -14,7 +14,7 @@ class ReportWorker
     sort_orders = orders.order(:cost)
     sort_orders = sort_orders.where(user_id: user_id)
     sort_type_orders = orders.order("(options ->> '#{type}')") #Я нашёл эту дичь!!!! Спасибо Stackoverflow
-    sort_type_orders = sort_ram_orders.where(user_id: user_id) #https://stackoverflow.com/questions/42365091/rails-order-by-a-hash-value-attribute
+    sort_type_orders = sort_type_orders.where(user_id: user_id) #https://stackoverflow.com/questions/42365091/rails-order-by-a-hash-value-attribute
     sort_hdd_capcity_orders = orders.order("(options ->> 'hdd_capacity')")
     sort_hdd_capcity_orders = sort_hdd_capcity_orders.where(user_id: user_id)
     report.max_cost = sort_orders.last(counter)
